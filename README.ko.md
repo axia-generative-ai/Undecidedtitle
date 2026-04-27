@@ -80,5 +80,3 @@
 이 프로젝트는 포트폴리오 목적의 프로토타입입니다.
 
 ---
-
-[English Version](./README.en.md) · [언어 선택으로 돌아가기](./README.md)
