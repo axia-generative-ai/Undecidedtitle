@@ -5,6 +5,7 @@ import os
 
 from fastapi import FastAPI
 
+from app.api.anomaly import router as anomaly_router
 from app.api.search import router as search_router
 
 logger = logging.getLogger(__name__)
@@ -17,6 +18,7 @@ app = FastAPI(
 )
 
 app.include_router(search_router)
+app.include_router(anomaly_router)
 
 
 @app.get("/health")
