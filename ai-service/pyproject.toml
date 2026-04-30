@@ -55,3 +55,8 @@ target-version = "py310"
 [tool.ruff.lint]
 select = ["E", "F", "I", "B", "UP"]
 ignore = ["E501"]
+
+[dependency-groups]
+dev = [
+    "openapi-spec-validator>=0.8.5",
+]

@@ -1,0 +1,430 @@
+openapi: 3.0.3
+
+info:
+  title: FactoryGuard AI Service
+  version: 0.1.0
+  description: |
+    Equipment manual RAG (`/search`) and anomaly analysis (`/anomaly`)
+    HTTP API consumed by the FactoryGuard BackEnd.
+
+    The service is provider-agnostic: `LLM_PROVIDER` and
+    `EMBEDDING_PROVIDER` env vars switch between Ollama (local dev)
+    and OpenAI (production / demo). All response shapes are stable
+    across providers.
+  contact:
+    name: Chanwoo Lim (AI/ML)
+  license:
+    name: Proprietary
+
+servers:
+  - url: http://localhost:8000
+    description: Local dev
+
+tags:
+  - name: search
+    description: Manual-grounded action guide generation.
+  - name: anomaly
+    description: Two-stage (rule + LLM) anomaly analysis.
+  - name: admin
+    description: Operational endpoints for the AI team.
+  - name: meta
+    description: Liveness / readiness.
+
+paths:
+  /api/v1/search:
+    post:
+      tags: [search]
+      summary: Generate an action guide for an error code or natural-language query
+      operationId: search
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SearchRequest'
+            examples:
+              literalCode:
+                summary: Literal error-code lookup
+                value:
+                  query: "E-204"
+              naturalLanguage:
+                summary: Natural-language paraphrase
+                value:
+                  query: "PV-300 밸브가 OPEN 명령에 늦게 반응합니다"
+                  equipment_id: eq_pv300
+      responses:
+        '200':
+          description: Action guide generated.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SearchResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+        '503':
+          $ref: '#/components/responses/UpstreamUnavailable'
+
+  /api/v1/anomaly:
+    post:
+      tags: [anomaly]
+      summary: Run rule + LLM analysis on a sensor log
+      description: |
+        Stage 1 (deterministic) evaluates `data/anomaly_rules.json`
+        against the readings. If no rule fires, the response
+        short-circuits with `status: 정상`. Stage 2 (LLM, RAG-grounded)
+        only runs when rules trigger.
+      operationId: analyzeAnomaly
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SensorLog'
+            examples:
+              vibrationAlert:
+                summary: cv550 with elevated bearing vibration
+                value:
+                  equipment_id: eq_cv550
+                  timestamp: '2026-04-30T10:00:00Z'
+                  readings:
+                    vibration_mm_s: 5.2
+                    winding_temp_c: 95.0
+              normal:
+                summary: pv300 within normal envelope
+                value:
+                  equipment_id: eq_pv300
+                  timestamp: '2026-04-30T10:00:00Z'
+                  readings:
+                    temperature_c: 60.0
+                    pressure_kpa: 600.0
+                    vibration_mm_s: 2.5
+      responses:
+        '200':
+          description: Analysis result.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AnomalyResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+        '503':
+          $ref: '#/components/responses/UpstreamUnavailable'
+
+  /api/v1/ingest:
+    post:
+      tags: [admin]
+      summary: Re-ingest manuals into the vector store (admin)
+      description: |
+        Mirrors `scripts/ingest_manuals.py`. Drops `manual_chunks`,
+        re-chunks every PDF in `data/manuals/`, embeds, and inserts.
+
+        **Status: not implemented in v0.1.0.** The script is the
+        supported path; this HTTP route is reserved in the contract so
+        the BackEnd can wire it up once admin auth lands.
+      operationId: ingestManuals
+      security:
+        - adminApiKey: []
+      responses:
+        '202':
+          description: Ingest accepted; runs asynchronously.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IngestAccepted'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '501':
+          description: Endpoint reserved but not implemented in this build.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /health:
+    get:
+      tags: [meta]
+      summary: Liveness probe
+      operationId: health
+      responses:
+        '200':
+          description: Service is up.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HealthResponse'
+
+components:
+
+  securitySchemes:
+    adminApiKey:
+      type: apiKey
+      in: header
+      name: X-Admin-Token
+      description: Reserved for the admin ingest endpoint. Not active in v0.1.0.
+
+  responses:
+    BadRequest:
+      description: Malformed request payload (e.g. unsupported provider state).
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Admin token missing or invalid.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    ValidationError:
+      description: Pydantic body validation failed.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/HTTPValidationError'
+    UpstreamUnavailable:
+      description: |
+        LLM or embedding provider unreachable. For known error codes the
+        cached response path may still return 200 with a [cached]
+        marker in `answer_text`; if no cache hit is available the
+        service returns 503 here.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+
+  schemas:
+
+    # ---------- /search ----------
+
+    SearchRequest:
+      type: object
+      required: [query]
+      properties:
+        query:
+          type: string
+          minLength: 1
+          description: Error code (`E-204`) or natural-language question.
+          example: "E-204"
+        equipment_id:
+          type: string
+          nullable: true
+          description: Optional scope filter; matches `data/error_codes.json::equipment_id`.
+          example: eq_pv300
+        top_k:
+          type: integer
+          minimum: 1
+          maximum: 20
+          nullable: true
+          description: Override default Top-K (Settings.retrieval_top_k = 3).
+
+    SourceRef:
+      type: object
+      required: [manual, page]
+      properties:
+        manual:
+          type: string
+          example: pv300_manual.pdf
+        page:
+          type: integer
+          example: 14
+
+    GuideStep:
+      type: object
+      required: [order, action]
+      properties:
+        order:
+          type: integer
+          example: 1
+        action:
+          type: string
+        source:
+          $ref: '#/components/schemas/SourceRef'
+          nullable: true
+
+    RawChunk:
+      type: object
+      required: [chunk_id, manual_id, equipment_id, page, chunk_text, similarity]
+      properties:
+        chunk_id:
+          type: string
+        manual_id:
+          type: string
+        equipment_id:
+          type: string
+        page:
+          type: integer
+        chunk_text:
+          type: string
+        similarity:
+          type: number
+          format: float
+
+    SearchResponse:
+      type: object
+      required: [steps, raw_chunks, answer_text, fallback, latency_ms]
+      properties:
+        steps:
+          type: array
+          items:
+            $ref: '#/components/schemas/GuideStep'
+        raw_chunks:
+          type: array
+          items:
+            $ref: '#/components/schemas/RawChunk'
+        answer_text:
+          type: string
+          description: "Raw LLM output. Suffixed with `[cached: <reason>]` when served from `data/cached_responses.json`."
+        fallback:
+          type: boolean
+          description: True when retrieval was below threshold OR no steps could be parsed.
+        latency_ms:
+          type: integer
+
+    # ---------- /anomaly ----------
+
+    SensorLog:
+      type: object
+      required: [equipment_id, timestamp]
+      properties:
+        equipment_id:
+          type: string
+          minLength: 1
+          example: eq_cv550
+        timestamp:
+          type: string
+          format: date-time
+          example: '2026-04-30T10:00:00Z'
+        readings:
+          type: object
+          additionalProperties:
+            type: number
+          description: Free-form metric -> numeric value mapping.
+          example:
+            vibration_mm_s: 5.2
+            winding_temp_c: 95.0
+
+    Severity:
+      type: string
+      enum: [low, medium, high, critical]
+
+    TriggeredRule:
+      type: object
+      required: [rule_id, metric, operator, threshold, observed, severity, description]
+      properties:
+        rule_id:    { type: string }
+        metric:     { type: string }
+        operator:
+          type: string
+          enum: [">", ">=", "<", "<=", "=="]
+        threshold:  { type: number }
+        observed:   { type: number }
+        severity:   { $ref: '#/components/schemas/Severity' }
+        description: { type: string }
+
+    RuleResult:
+      type: object
+      required: [is_anomaly]
+      properties:
+        is_anomaly:
+          type: boolean
+        severity:
+          $ref: '#/components/schemas/Severity'
+          nullable: true
+        triggered_rules:
+          type: array
+          items:
+            $ref: '#/components/schemas/TriggeredRule'
+
+    ManualReference:
+      type: object
+      required: [manual, page]
+      properties:
+        manual: { type: string }
+        page:   { type: integer }
+
+    AnomalyResponse:
+      type: object
+      required: [rule_result, status, probable_cause, recommended_action, raw_answer, latency_ms]
+      properties:
+        rule_result:
+          $ref: '#/components/schemas/RuleResult'
+        status:
+          type: string
+          enum: [정상, 주의, 이상]
+        probable_cause:
+          type: string
+        recommended_action:
+          type: string
+        related_error_codes:
+          type: array
+          items:
+            type: string
+            pattern: '^E-\d{3}$'
+        manual_refs:
+          type: array
+          items:
+            $ref: '#/components/schemas/ManualReference'
+        raw_answer:
+          type: string
+        latency_ms:
+          type: integer
+
+    # ---------- /ingest ----------
+
+    IngestAccepted:
+      type: object
+      required: [job_id, status]
+      properties:
+        job_id:
+          type: string
+          format: uuid
+        status:
+          type: string
+          enum: [accepted]
+
+    # ---------- meta ----------
+
+    HealthResponse:
+      type: object
+      required: [status]
+      properties:
+        status:
+          type: string
+          enum: [ok]
+
+    # ---------- error envelopes ----------
+
+    Error:
+      type: object
+      required: [detail]
+      properties:
+        detail:
+          type: string
+          description: Human-readable error message.
+
+    ValidationErrorItem:
+      type: object
+      required: [loc, msg, type]
+      properties:
+        loc:
+          type: array
+          items:
+            anyOf:
+              - type: string
+              - type: integer
+        msg:
+          type: string
+        type:
+          type: string
+
+    HTTPValidationError:
+      type: object
+      properties:
+        detail:
+          type: array
+          items:
+            $ref: '#/components/schemas/ValidationErrorItem'
