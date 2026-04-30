@@ -34,9 +34,9 @@ FactoryGuard is an AI service that instantly retrieves the relevant manual via R
 
 | Folder | Owner | Description |
 |---|---|---|
-| `frontend/` | Member A |  |
-| `backend/` | Member B |  |
-| `ai-service/` | Member C |  |
+| `frontend/` | Member A | React-based user interface and client app |
+| `backend/` | Member B | REST API server, business logic, database integration |
+| `ai-service/` | Member C | RAG pipeline, LLM integration, embedding & retrieval |
 | `docs/` | Shared | Planning, design, architecture, and presentation documents |
 | `shared/` | Shared | Environment variable templates, etc. |
 
@@ -67,11 +67,13 @@ For detailed setup instructions and folder structure, refer to the README inside
 
 ## 🛠️ Tech Stack
 
-**Frontend** — React 18, TypeScript, Tailwind CSS
-**Backend** — fast api, python 3.13
-**AI/ML** — LangChain, FastAPI, OpenAI/Claude API, Chroma DB
-**Database** — PostgreSQL (Relationship) + PGVector (Vector)
-**DevOps** — GitHub Actions, Docker, Notion
+| Layer | Stack |
+|---|---|
+| Frontend | React 18, TypeScript, Tailwind CSS |
+| Backend | FastAPI, Python 3.13 |
+| AI/ML | LangChain, OpenAI/Claude API, Chroma DB |
+| Database | PostgreSQL (Relational) + PGVector (Vector) |
+| DevOps | GitHub Actions, Docker, Notion |
 
 ---
 
