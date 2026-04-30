@@ -1,0 +1,68 @@
+# =====================
+# Node.js
+# =====================
+node_modules/
+dist/
+build/
+.env.local
+.next/
+.nuxt/
+.cache/
+
+# =====================
+# Java / Gradle / Maven
+# =====================
+build/
+.gradle/
+*.class
+target/
+*.jar
+*.war
+
+# =====================
+# Python
+# =====================
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+*.egg-info/
+.eggs/
+dist/
+*.so
+
+# =====================
+# IDE
+# =====================
+.idea/
+.vscode/
+*.iml
+*.iws
+*.ipr
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# =====================
+# Environment Variables
+# =====================
+.env
+.env.local
+.env.production
+.env.*.local
+
+# =====================
+# AI / Data
+# =====================
+ai-service/data/chroma_db/
+*.sqlite3
+*.db
+
+# =====================
+# Logs
+# =====================
+*.log
+logs/
+
+.claude/
