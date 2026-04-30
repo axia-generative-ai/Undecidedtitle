@@ -1,0 +1,103 @@
+{
+  "rules": [
+    {
+      "rule_id": "pv300-pressure-low",
+      "equipment_id": "eq_pv300",
+      "metric": "pressure_kpa",
+      "operator": "<",
+      "threshold": 500.0,
+      "severity": "high",
+      "description": "공급 압력이 0.5 MPa 미만 — E-201 후보."
+    },
+    {
+      "rule_id": "pv300-temp-high",
+      "equipment_id": "eq_pv300",
+      "metric": "temperature_c",
+      "operator": ">",
+      "threshold": 75.0,
+      "severity": "medium",
+      "description": "본체 온도 75°C 초과."
+    },
+    {
+      "rule_id": "pv300-vibration-high",
+      "equipment_id": "eq_pv300",
+      "metric": "vibration_mm_s",
+      "operator": ">",
+      "threshold": 4.0,
+      "severity": "high",
+      "description": "이상 진동 감지."
+    },
+    {
+      "rule_id": "cv550-vibration-high",
+      "equipment_id": "eq_cv550",
+      "metric": "vibration_mm_s",
+      "operator": ">",
+      "threshold": 4.0,
+      "severity": "high",
+      "description": "베어링 진동 4.0 mm/s 초과 — E-302 후보."
+    },
+    {
+      "rule_id": "cv550-temp-high",
+      "equipment_id": "eq_cv550",
+      "metric": "winding_temp_c",
+      "operator": ">",
+      "threshold": 130.0,
+      "severity": "high",
+      "description": "권선 온도 130°C 초과 — E-303 후보."
+    },
+    {
+      "rule_id": "cv550-current-overload",
+      "equipment_id": "eq_cv550",
+      "metric": "current_a",
+      "operator": ">",
+      "threshold": 22.0,
+      "severity": "critical",
+      "description": "정격 전류 150% 초과 — E-301 후보."
+    },
+    {
+      "rule_id": "hp120-pressure-low",
+      "equipment_id": "eq_hp120",
+      "metric": "pressure_mpa",
+      "operator": "<",
+      "threshold": 18.0,
+      "severity": "critical",
+      "description": "유압 라인 압력 18 MPa 미만 — E-401 후보."
+    },
+    {
+      "rule_id": "hp120-oil-overheat",
+      "equipment_id": "eq_hp120",
+      "metric": "oil_temp_c",
+      "operator": ">",
+      "threshold": 70.0,
+      "severity": "high",
+      "description": "작동유 70°C 초과 — E-402 후보."
+    },
+    {
+      "rule_id": "rb900-joint-torque-high",
+      "equipment_id": "eq_rb900",
+      "metric": "joint_torque_nm",
+      "operator": ">",
+      "threshold": 50.0,
+      "severity": "high",
+      "description": "관절 토크 한계 초과 — E-501 후보."
+    },
+    {
+      "rule_id": "cn450-spindle-load-high",
+      "equipment_id": "eq_cn450",
+      "metric": "spindle_load_pct",
+      "operator": ">",
+      "threshold": 110.0,
+      "severity": "high",
+      "description": "주축 부하 110% 초과 — E-601 후보."
+    },
+    {
+      "rule_id": "cn450-coolant-low",
+      "equipment_id": "eq_cn450",
+      "metric": "coolant_pressure_mpa",
+      "operator": "<",
+      "threshold": 0.3,
+      "severity": "low",
+      "description": "절삭유 압력 0.3 MPa 미만 — E-604 후보."
+    }
+  ]
+}

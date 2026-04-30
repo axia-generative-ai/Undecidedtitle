@@ -1,0 +1,242 @@
+[
+  {
+    "code": "E-201",
+    "equipment_name": "공압 밸브 PV-300",
+    "equipment_id": "eq_pv300",
+    "manual_filename": "pv300_manual.pdf",
+    "expected_pages": [
+      7,
+      8
+    ],
+    "severity": "high",
+    "description": "공급 압력 부족"
+  },
+  {
+    "code": "E-202",
+    "equipment_name": "공압 밸브 PV-300",
+    "equipment_id": "eq_pv300",
+    "manual_filename": "pv300_manual.pdf",
+    "expected_pages": [
+      9,
+      10
+    ],
+    "severity": "medium",
+    "description": "위치 센서 신호 손실"
+  },
+  {
+    "code": "E-203",
+    "equipment_name": "공압 밸브 PV-300",
+    "equipment_id": "eq_pv300",
+    "manual_filename": "pv300_manual.pdf",
+    "expected_pages": [
+      11,
+      12
+    ],
+    "severity": "high",
+    "description": "내부 누설 감지"
+  },
+  {
+    "code": "E-204",
+    "equipment_name": "공압 밸브 PV-300",
+    "equipment_id": "eq_pv300",
+    "manual_filename": "pv300_manual.pdf",
+    "expected_pages": [
+      13,
+      14
+    ],
+    "severity": "high",
+    "description": "액추에이터 응답 시간 초과"
+  },
+  {
+    "code": "E-301",
+    "equipment_name": "컨베이어 모터 CV-550",
+    "equipment_id": "eq_cv550",
+    "manual_filename": "cv550_manual.pdf",
+    "expected_pages": [
+      7,
+      8
+    ],
+    "severity": "critical",
+    "description": "과전류"
+  },
+  {
+    "code": "E-302",
+    "equipment_name": "컨베이어 모터 CV-550",
+    "equipment_id": "eq_cv550",
+    "manual_filename": "cv550_manual.pdf",
+    "expected_pages": [
+      9,
+      10
+    ],
+    "severity": "high",
+    "description": "베어링 진동 초과"
+  },
+  {
+    "code": "E-303",
+    "equipment_name": "컨베이어 모터 CV-550",
+    "equipment_id": "eq_cv550",
+    "manual_filename": "cv550_manual.pdf",
+    "expected_pages": [
+      11,
+      12
+    ],
+    "severity": "high",
+    "description": "권선 온도 상승"
+  },
+  {
+    "code": "E-304",
+    "equipment_name": "컨베이어 모터 CV-550",
+    "equipment_id": "eq_cv550",
+    "manual_filename": "cv550_manual.pdf",
+    "expected_pages": [
+      13,
+      14
+    ],
+    "severity": "medium",
+    "description": "인코더 신호 이상"
+  },
+  {
+    "code": "E-401",
+    "equipment_name": "유압 프레스 HP-120",
+    "equipment_id": "eq_hp120",
+    "manual_filename": "hp120_manual.pdf",
+    "expected_pages": [
+      7,
+      8
+    ],
+    "severity": "critical",
+    "description": "유압 압력 저하"
+  },
+  {
+    "code": "E-402",
+    "equipment_name": "유압 프레스 HP-120",
+    "equipment_id": "eq_hp120",
+    "manual_filename": "hp120_manual.pdf",
+    "expected_pages": [
+      9,
+      10
+    ],
+    "severity": "high",
+    "description": "작동유 온도 과열"
+  },
+  {
+    "code": "E-403",
+    "equipment_name": "유압 프레스 HP-120",
+    "equipment_id": "eq_hp120",
+    "manual_filename": "hp120_manual.pdf",
+    "expected_pages": [
+      11,
+      12
+    ],
+    "severity": "critical",
+    "description": "라이트 커튼 페일"
+  },
+  {
+    "code": "E-404",
+    "equipment_name": "유압 프레스 HP-120",
+    "equipment_id": "eq_hp120",
+    "manual_filename": "hp120_manual.pdf",
+    "expected_pages": [
+      13,
+      14
+    ],
+    "severity": "high",
+    "description": "양손 누름 동시성 오류"
+  },
+  {
+    "code": "E-501",
+    "equipment_name": "협동 로봇 RB-900",
+    "equipment_id": "eq_rb900",
+    "manual_filename": "rb900_manual.pdf",
+    "expected_pages": [
+      7,
+      8
+    ],
+    "severity": "high",
+    "description": "충돌 감지 트리거"
+  },
+  {
+    "code": "E-502",
+    "equipment_name": "협동 로봇 RB-900",
+    "equipment_id": "eq_rb900",
+    "manual_filename": "rb900_manual.pdf",
+    "expected_pages": [
+      9,
+      10
+    ],
+    "severity": "high",
+    "description": "관절 엔코더 오차"
+  },
+  {
+    "code": "E-503",
+    "equipment_name": "협동 로봇 RB-900",
+    "equipment_id": "eq_rb900",
+    "manual_filename": "rb900_manual.pdf",
+    "expected_pages": [
+      11,
+      12
+    ],
+    "severity": "critical",
+    "description": "안전 입력 단선"
+  },
+  {
+    "code": "E-504",
+    "equipment_name": "협동 로봇 RB-900",
+    "equipment_id": "eq_rb900",
+    "manual_filename": "rb900_manual.pdf",
+    "expected_pages": [
+      13,
+      14
+    ],
+    "severity": "medium",
+    "description": "툴 통신 장애"
+  },
+  {
+    "code": "E-601",
+    "equipment_name": "CNC 머시닝센터 CN-450",
+    "equipment_id": "eq_cn450",
+    "manual_filename": "cn450_manual.pdf",
+    "expected_pages": [
+      7,
+      8
+    ],
+    "severity": "high",
+    "description": "주축 과부하"
+  },
+  {
+    "code": "E-602",
+    "equipment_name": "CNC 머시닝센터 CN-450",
+    "equipment_id": "eq_cn450",
+    "manual_filename": "cn450_manual.pdf",
+    "expected_pages": [
+      9,
+      10
+    ],
+    "severity": "medium",
+    "description": "ATC 공구 미장착"
+  },
+  {
+    "code": "E-603",
+    "equipment_name": "CNC 머시닝센터 CN-450",
+    "equipment_id": "eq_cn450",
+    "manual_filename": "cn450_manual.pdf",
+    "expected_pages": [
+      11,
+      12
+    ],
+    "severity": "high",
+    "description": "축 위치 편차"
+  },
+  {
+    "code": "E-604",
+    "equipment_name": "CNC 머시닝센터 CN-450",
+    "equipment_id": "eq_cn450",
+    "manual_filename": "cn450_manual.pdf",
+    "expected_pages": [
+      13,
+      14
+    ],
+    "severity": "low",
+    "description": "절삭유 압력 저하"
+  }
+]
