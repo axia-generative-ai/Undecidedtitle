@@ -1,0 +1,57 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "FactoryGuard error code records",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+      "code",
+      "equipment_name",
+      "equipment_id",
+      "manual_filename",
+      "expected_pages",
+      "severity",
+      "description"
+    ],
+    "properties": {
+      "code": {
+        "type": "string",
+        "pattern": "^E-\\d{3}$"
+      },
+      "equipment_name": {
+        "type": "string",
+        "minLength": 1
+      },
+      "equipment_id": {
+        "type": "string",
+        "pattern": "^eq_[a-z0-9]+$"
+      },
+      "manual_filename": {
+        "type": "string",
+        "pattern": "\\.pdf$"
+      },
+      "expected_pages": {
+        "type": "array",
+        "minItems": 1,
+        "items": {
+          "type": "integer",
+          "minimum": 1
+        }
+      },
+      "severity": {
+        "type": "string",
+        "enum": [
+          "low",
+          "medium",
+          "high",
+          "critical"
+        ]
+      },
+      "description": {
+        "type": "string",
+        "minLength": 1
+      }
+    }
+  }
+}

@@ -1,0 +1,327 @@
+[
+  {
+    "id": "eval_001",
+    "error_code": "E-201",
+    "equipment_id": "eq_pv300",
+    "natural_language_query": "E-201 코드가 떴습니다. 어떻게 조치하나요?",
+    "expected_manual_id": "pv300_manual",
+    "expected_manual_filename": "pv300_manual.pdf",
+    "expected_pages": [
+      7,
+      8
+    ],
+    "notes": "Direct code lookup for E-201 (공급 압력 부족)."
+  },
+  {
+    "id": "eval_002",
+    "error_code": "E-202",
+    "equipment_id": "eq_pv300",
+    "natural_language_query": "E-202 코드가 떴습니다. 어떻게 조치하나요?",
+    "expected_manual_id": "pv300_manual",
+    "expected_manual_filename": "pv300_manual.pdf",
+    "expected_pages": [
+      9,
+      10
+    ],
+    "notes": "Direct code lookup for E-202 (위치 센서 신호 손실)."
+  },
+  {
+    "id": "eval_003",
+    "error_code": "E-203",
+    "equipment_id": "eq_pv300",
+    "natural_language_query": "E-203 코드가 떴습니다. 어떻게 조치하나요?",
+    "expected_manual_id": "pv300_manual",
+    "expected_manual_filename": "pv300_manual.pdf",
+    "expected_pages": [
+      11,
+      12
+    ],
+    "notes": "Direct code lookup for E-203 (내부 누설 감지)."
+  },
+  {
+    "id": "eval_004",
+    "error_code": "E-204",
+    "equipment_id": "eq_pv300",
+    "natural_language_query": "E-204 코드가 떴습니다. 어떻게 조치하나요?",
+    "expected_manual_id": "pv300_manual",
+    "expected_manual_filename": "pv300_manual.pdf",
+    "expected_pages": [
+      13,
+      14
+    ],
+    "notes": "Direct code lookup for E-204 (액추에이터 응답 시간 초과)."
+  },
+  {
+    "id": "eval_005",
+    "error_code": "E-301",
+    "equipment_id": "eq_cv550",
+    "natural_language_query": "E-301 코드가 떴습니다. 어떻게 조치하나요?",
+    "expected_manual_id": "cv550_manual",
+    "expected_manual_filename": "cv550_manual.pdf",
+    "expected_pages": [
+      7,
+      8
+    ],
+    "notes": "Direct code lookup for E-301 (과전류)."
+  },
+  {
+    "id": "eval_006",
+    "error_code": "E-302",
+    "equipment_id": "eq_cv550",
+    "natural_language_query": "E-302 코드가 떴습니다. 어떻게 조치하나요?",
+    "expected_manual_id": "cv550_manual",
+    "expected_manual_filename": "cv550_manual.pdf",
+    "expected_pages": [
+      9,
+      10
+    ],
+    "notes": "Direct code lookup for E-302 (베어링 진동 초과)."
+  },
+  {
+    "id": "eval_007",
+    "error_code": "E-303",
+    "equipment_id": "eq_cv550",
+    "natural_language_query": "E-303 코드가 떴습니다. 어떻게 조치하나요?",
+    "expected_manual_id": "cv550_manual",
+    "expected_manual_filename": "cv550_manual.pdf",
+    "expected_pages": [
+      11,
+      12
+    ],
+    "notes": "Direct code lookup for E-303 (권선 온도 상승)."
+  },
+  {
+    "id": "eval_008",
+    "error_code": "E-304",
+    "equipment_id": "eq_cv550",
+    "natural_language_query": "E-304 코드가 떴습니다. 어떻게 조치하나요?",
+    "expected_manual_id": "cv550_manual",
+    "expected_manual_filename": "cv550_manual.pdf",
+    "expected_pages": [
+      13,
+      14
+    ],
+    "notes": "Direct code lookup for E-304 (인코더 신호 이상)."
+  },
+  {
+    "id": "eval_009",
+    "error_code": "E-401",
+    "equipment_id": "eq_hp120",
+    "natural_language_query": "E-401 코드가 떴습니다. 어떻게 조치하나요?",
+    "expected_manual_id": "hp120_manual",
+    "expected_manual_filename": "hp120_manual.pdf",
+    "expected_pages": [
+      7,
+      8
+    ],
+    "notes": "Direct code lookup for E-401 (유압 압력 저하)."
+  },
+  {
+    "id": "eval_010",
+    "error_code": "E-402",
+    "equipment_id": "eq_hp120",
+    "natural_language_query": "E-402 코드가 떴습니다. 어떻게 조치하나요?",
+    "expected_manual_id": "hp120_manual",
+    "expected_manual_filename": "hp120_manual.pdf",
+    "expected_pages": [
+      9,
+      10
+    ],
+    "notes": "Direct code lookup for E-402 (작동유 온도 과열)."
+  },
+  {
+    "id": "eval_011",
+    "error_code": "E-403",
+    "equipment_id": "eq_hp120",
+    "natural_language_query": "E-403 코드가 떴습니다. 어떻게 조치하나요?",
+    "expected_manual_id": "hp120_manual",
+    "expected_manual_filename": "hp120_manual.pdf",
+    "expected_pages": [
+      11,
+      12
+    ],
+    "notes": "Direct code lookup for E-403 (라이트 커튼 페일)."
+  },
+  {
+    "id": "eval_012",
+    "error_code": "E-404",
+    "equipment_id": "eq_hp120",
+    "natural_language_query": "E-404 코드가 떴습니다. 어떻게 조치하나요?",
+    "expected_manual_id": "hp120_manual",
+    "expected_manual_filename": "hp120_manual.pdf",
+    "expected_pages": [
+      13,
+      14
+    ],
+    "notes": "Direct code lookup for E-404 (양손 누름 동시성 오류)."
+  },
+  {
+    "id": "eval_013",
+    "error_code": "E-501",
+    "equipment_id": "eq_rb900",
+    "natural_language_query": "E-501 코드가 떴습니다. 어떻게 조치하나요?",
+    "expected_manual_id": "rb900_manual",
+    "expected_manual_filename": "rb900_manual.pdf",
+    "expected_pages": [
+      7,
+      8
+    ],
+    "notes": "Direct code lookup for E-501 (충돌 감지 트리거)."
+  },
+  {
+    "id": "eval_014",
+    "error_code": "E-502",
+    "equipment_id": "eq_rb900",
+    "natural_language_query": "E-502 코드가 떴습니다. 어떻게 조치하나요?",
+    "expected_manual_id": "rb900_manual",
+    "expected_manual_filename": "rb900_manual.pdf",
+    "expected_pages": [
+      9,
+      10
+    ],
+    "notes": "Direct code lookup for E-502 (관절 엔코더 오차)."
+  },
+  {
+    "id": "eval_015",
+    "error_code": "E-503",
+    "equipment_id": "eq_rb900",
+    "natural_language_query": "E-503 코드가 떴습니다. 어떻게 조치하나요?",
+    "expected_manual_id": "rb900_manual",
+    "expected_manual_filename": "rb900_manual.pdf",
+    "expected_pages": [
+      11,
+      12
+    ],
+    "notes": "Direct code lookup for E-503 (안전 입력 단선)."
+  },
+  {
+    "id": "eval_016",
+    "error_code": "E-504",
+    "equipment_id": "eq_rb900",
+    "natural_language_query": "E-504 코드가 떴습니다. 어떻게 조치하나요?",
+    "expected_manual_id": "rb900_manual",
+    "expected_manual_filename": "rb900_manual.pdf",
+    "expected_pages": [
+      13,
+      14
+    ],
+    "notes": "Direct code lookup for E-504 (툴 통신 장애)."
+  },
+  {
+    "id": "eval_017",
+    "error_code": "E-601",
+    "equipment_id": "eq_cn450",
+    "natural_language_query": "E-601 코드가 떴습니다. 어떻게 조치하나요?",
+    "expected_manual_id": "cn450_manual",
+    "expected_manual_filename": "cn450_manual.pdf",
+    "expected_pages": [
+      7,
+      8
+    ],
+    "notes": "Direct code lookup for E-601 (주축 과부하)."
+  },
+  {
+    "id": "eval_018",
+    "error_code": "E-602",
+    "equipment_id": "eq_cn450",
+    "natural_language_query": "E-602 코드가 떴습니다. 어떻게 조치하나요?",
+    "expected_manual_id": "cn450_manual",
+    "expected_manual_filename": "cn450_manual.pdf",
+    "expected_pages": [
+      9,
+      10
+    ],
+    "notes": "Direct code lookup for E-602 (ATC 공구 미장착)."
+  },
+  {
+    "id": "eval_019",
+    "error_code": "E-603",
+    "equipment_id": "eq_cn450",
+    "natural_language_query": "E-603 코드가 떴습니다. 어떻게 조치하나요?",
+    "expected_manual_id": "cn450_manual",
+    "expected_manual_filename": "cn450_manual.pdf",
+    "expected_pages": [
+      11,
+      12
+    ],
+    "notes": "Direct code lookup for E-603 (축 위치 편차)."
+  },
+  {
+    "id": "eval_020",
+    "error_code": "E-604",
+    "equipment_id": "eq_cn450",
+    "natural_language_query": "E-604 코드가 떴습니다. 어떻게 조치하나요?",
+    "expected_manual_id": "cn450_manual",
+    "expected_manual_filename": "cn450_manual.pdf",
+    "expected_pages": [
+      13,
+      14
+    ],
+    "notes": "Direct code lookup for E-604 (절삭유 압력 저하)."
+  },
+  {
+    "id": "eval_021",
+    "error_code": "E-204",
+    "equipment_id": "eq_pv300",
+    "natural_language_query": "PV-300 밸브가 OPEN 명령에 늦게 반응하는데 어떻게 조치해야 하나요?",
+    "expected_manual_id": "pv300_manual",
+    "expected_manual_filename": "pv300_manual.pdf",
+    "expected_pages": [
+      13,
+      14
+    ],
+    "notes": "Paraphrase for E-204 (response timeout). Avoids the raw code."
+  },
+  {
+    "id": "eval_022",
+    "error_code": "E-302",
+    "equipment_id": "eq_cv550",
+    "natural_language_query": "컨베이어 모터에서 진동이 4mm/s 이상 측정됩니다. 점검 절차 알려주세요.",
+    "expected_manual_id": "cv550_manual",
+    "expected_manual_filename": "cv550_manual.pdf",
+    "expected_pages": [
+      9,
+      10
+    ],
+    "notes": "Paraphrase for E-302 (bearing vibration)."
+  },
+  {
+    "id": "eval_023",
+    "error_code": "E-402",
+    "equipment_id": "eq_hp120",
+    "natural_language_query": "유압 프레스 작동유 온도가 70도를 넘었습니다. 무엇부터 확인해야 하죠?",
+    "expected_manual_id": "hp120_manual",
+    "expected_manual_filename": "hp120_manual.pdf",
+    "expected_pages": [
+      9,
+      10
+    ],
+    "notes": "Paraphrase for E-402 (oil overheat)."
+  },
+  {
+    "id": "eval_024",
+    "error_code": "E-501",
+    "equipment_id": "eq_rb900",
+    "natural_language_query": "협동 로봇이 갑자기 멈추면서 충돌 알람이 떴습니다. 안전 리셋 절차?",
+    "expected_manual_id": "rb900_manual",
+    "expected_manual_filename": "rb900_manual.pdf",
+    "expected_pages": [
+      7,
+      8
+    ],
+    "notes": "Paraphrase for E-501 (collision detected)."
+  },
+  {
+    "id": "eval_025",
+    "error_code": "E-601",
+    "equipment_id": "eq_cn450",
+    "natural_language_query": "CNC 주축에 부하가 과도하게 걸린다고 표시됩니다. 절삭 조건을 어떻게 조정?",
+    "expected_manual_id": "cn450_manual",
+    "expected_manual_filename": "cn450_manual.pdf",
+    "expected_pages": [
+      7,
+      8
+    ],
+    "notes": "Paraphrase for E-601 (spindle overload)."
+  }
+]
