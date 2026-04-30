@@ -34,9 +34,9 @@
 
 | 폴더 | 담당 | 설명 |
 |---|---|---|
-| `frontend/` | 팀원 A |   |
-| `backend/` | 팀원 B |   |
-| `ai-service/` | 팀원 C |   |
+| `frontend/` | 팀원 A | React 기반 사용자 인터페이스 및 클라이언트 앱 |
+| `backend/` | 팀원 B | REST API 서버, 비즈니스 로직, DB 연동 |
+| `ai-service/` | 팀원 C | RAG 파이프라인, LLM 연동, 임베딩 및 검색 |
 | `docs/` | 공통 | 기획·설계·아키텍처·발표 문서 |
 | `shared/` | 공통 | 환경 변수 템플릿 등 |
 
@@ -67,11 +67,13 @@
 
 ## 🛠️ 기술 스택
 
-**Frontend** — React 18, TypeScript, Tailwind CSS
-**Backend** — fast api, python 3.13
-**AI/ML** — LangChain, FastAPI, OpenAI/Claude API, Chroma DB
-**Database** — PostgreSQL (Relationship) + PGVector (Vector)
-**DevOps** — GitHub Actions, Docker, Notion
+| 영역 | 스택 |
+|---|---|
+| Frontend | React 18, TypeScript, Tailwind CSS |
+| Backend | FastAPI, Python 3.13 |
+| AI/ML | LangChain, OpenAI/Claude API, Chroma DB |
+| Database | PostgreSQL (Relational) + PGVector (Vector) |
+| DevOps | GitHub Actions, Docker, Notion |
 
 ---
 
