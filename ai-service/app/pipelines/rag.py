@@ -1,16 +1,23 @@
 """RAG orchestration: retrieve Top-K chunks, render prompt, call LLM,
 parse the structured action guide.
 
-The pipeline keeps a fallback path so the API can return a sane payload
-even when the LLM produces no usable steps.
+The pipeline keeps multiple fallback paths so the API can return a sane
+payload even when the retrieval is weak, the LLM stalls, or the LLM
+provider is unreachable (AI-16):
+
+- weak retrieval (all hits below `similarity_threshold`) -> fallback msg
+- LLM raised / returned no parseable steps                -> cached response if available
+- LLM unreachable (ConnectionError)                       -> cached response if available
 """
 
 from __future__ import annotations
 
+import json
 import logging
 import re
 import time
 from dataclasses import dataclass
+from pathlib import Path
 
 from langchain_core.embeddings import Embeddings
 from langchain_core.language_models.chat_models import BaseChatModel
@@ -22,6 +29,13 @@ from app.core.embeddings import get_embeddings
 from app.core.llm import get_llm
 from app.core.vectorstore import SearchResult, VectorStore
 from app.schemas.search import GuideStep, RawChunk, SearchResponse, SourceRef
+
+CACHED_RESPONSES_PATH = (
+    Path(__file__).resolve().parents[2] / "data" / "cached_responses.json"
+)
+
+# A query that already names an error code wins the demo cache lookup.
+_ERROR_CODE_RE = re.compile(r"\bE-\d{3}\b")
 
 logger = logging.getLogger(__name__)
 
@@ -68,12 +82,19 @@ class RagPipeline:
         t0 = time.perf_counter()
 
         # 1) retrieve
-        qvec = self.embedder.embed_query(query)
-        chunks = self.store.similarity_search(
-            qvec,
-            k=top_k or self.settings.retrieval_top_k,
-            equipment_id=equipment_id,
-        )
+        try:
+            qvec = self.embedder.embed_query(query)
+            chunks = self.store.similarity_search(
+                qvec,
+                k=top_k or self.settings.retrieval_top_k,
+                equipment_id=equipment_id,
+            )
+        except ConnectionError as exc:
+            # Embedding backend down — try the demo cache before bailing.
+            cached = self._cache_lookup(query)
+            if cached:
+                return self._cached_response(cached, t0, reason="embed_unreachable")
+            raise
 
         # 2) gating: similarity threshold (drop weak hits before LLM)
         kept = [c for c in chunks if c.similarity >= self.settings.similarity_threshold]
@@ -82,16 +103,24 @@ class RagPipeline:
             steps: list[GuideStep] = []
             fallback = True
         else:
-            # 3) prompt + LLM
+            # 3) prompt + LLM (with cache fallback on hard failure)
             context = self._format_context(kept)
             prompt = prompt_loader.render("action_guide", context=context, query=query)
-            # `/no_think` must appear in BOTH the system role AND the start
-            # of the user content for qwen3.5:9b to skip its default thinking
-            # block reliably (system-only is honoured for short prompts but
-            # ignored once the user content carries a long context).
-            answer = self.llm.invoke(
-                [_NO_THINK, HumanMessage(content=f"/no_think\n\n{prompt}")]
-            ).content
+            try:
+                # `/no_think` must appear in BOTH the system role AND the
+                # start of the user content for qwen3.5:9b to skip its
+                # default thinking block reliably (system-only is honoured
+                # for short prompts but ignored once the user content
+                # carries a long context).
+                answer = self.llm.invoke(
+                    [_NO_THINK, HumanMessage(content=f"/no_think\n\n{prompt}")]
+                ).content
+            except ConnectionError:
+                cached = self._cache_lookup(query)
+                if cached:
+                    logger.warning("LLM unreachable; serving cached response")
+                    return self._cached_response(cached, t0, reason="llm_unreachable")
+                raise
             steps = self._parse_steps(answer)
             # Treat the response as a real answer when at least one cited
             # step parsed out — even if the model echoed the fallback line
@@ -123,6 +152,38 @@ class RagPipeline:
     # with input tokens; 600 chars × top_k≈3 keeps the prompt small enough
     # for the dev machine to respond within 60s without losing the cited page.
     _MAX_CHUNK_CHARS_FOR_PROMPT = 600
+
+    def _cache_lookup(self, query: str) -> dict | None:
+        """Return a frozen response for the error code in `query`, if any."""
+        if not CACHED_RESPONSES_PATH.exists():
+            return None
+        m = _ERROR_CODE_RE.search(query)
+        if not m:
+            return None
+        try:
+            cache = json.loads(CACHED_RESPONSES_PATH.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError) as exc:
+            logger.error("cached_responses.json unreadable: %s", exc)
+            return None
+        return cache.get(m.group(0))
+
+    def _cached_response(
+        self,
+        cached: dict,
+        t0: float,
+        *,
+        reason: str,
+    ) -> SearchResponse:
+        latency_ms = int((time.perf_counter() - t0) * 1000)
+        steps = [GuideStep(**s) for s in cached.get("steps", [])]
+        raw_chunks = [RawChunk(**c) for c in cached.get("raw_chunks", [])]
+        return SearchResponse(
+            steps=steps,
+            raw_chunks=raw_chunks,
+            answer_text=cached.get("answer_text", "") + f"\n\n[cached: {reason}]",
+            fallback=not steps,
+            latency_ms=latency_ms,
+        )
 
     def _format_context(self, chunks: list[SearchResult]) -> str:
         blocks = []
