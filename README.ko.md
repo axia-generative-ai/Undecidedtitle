@@ -67,10 +67,10 @@
 
 ## 🛠️ 기술 스택
 
-**Frontend** — 
-**Backend** — 
+**Frontend** — React 18, TypeScript, Tailwind CSS
+**Backend** — fast api, python 3.13
 **AI/ML** — LangChain, FastAPI, OpenAI/Claude API, Chroma DB
-**Database** — 
+**Database** — PostgreSQL (Relationship) + PGVector (Vector)
 **DevOps** — GitHub Actions, Docker, Notion
 
 ---
