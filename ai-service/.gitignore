@@ -58,6 +58,7 @@ desktop.ini
 ai-service/data/chroma_db/
 *.sqlite3
 *.db
+ai-service/tests/eval/results/
 
 # =====================
 # Logs
