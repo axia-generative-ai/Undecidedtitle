@@ -21,6 +21,24 @@ app.include_router(search_router)
 app.include_router(anomaly_router)
 
 
+@app.on_event("startup")
+def _warmup_embedder() -> None:
+    """Page the embedding model into Ollama memory at startup.
+
+    Without this, the *first* request after Ollama unloads the model
+    (default idle timeout 5 min) pays a 2 s+ retrieval cost. The latency
+    benchmark P95 fails over this exact spike. We discard the result —
+    we only care that the model is hot.
+    """
+    try:
+        from app.core.embeddings import get_embeddings
+
+        get_embeddings().embed_query("warmup")
+        logger.info("embedder warmed up at startup")
+    except Exception as exc:  # noqa: BLE001 — startup must not crash the app
+        logger.warning("embedder warmup failed: %s", exc)
+
+
 @app.get("/health")
 def health() -> dict[str, str]:
     return {"status": "ok"}
