@@ -71,7 +71,7 @@
 |---|---|
 | Frontend | React 18, TypeScript, Tailwind CSS |
 | Backend | FastAPI, Python 3.13 |
-| AI/ML | LangChain, OpenAI/Claude API, Chroma DB |
+| AI/ML | LangChain, OpenAI API (운영), 로컬 개발은 Ollama, pgvector |
 | Database | PostgreSQL (Relational) + PGVector (Vector) |
 | DevOps | GitHub Actions, Docker, Notion |
 
