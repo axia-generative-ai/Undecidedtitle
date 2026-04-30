@@ -35,7 +35,7 @@ jobs:
         run: node .github/scripts/sync-notion.js
 
       - name: Notify Discord (Push)
-        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        if: github.event_name == 'push'
         env:
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
         run: |
