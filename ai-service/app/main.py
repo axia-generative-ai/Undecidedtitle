@@ -5,6 +5,8 @@ import os
 
 from fastapi import FastAPI
 
+from app.api.search import router as search_router
+
 logger = logging.getLogger(__name__)
 logging.basicConfig(level=os.getenv("LOG_LEVEL", "INFO"))
 
@@ -13,6 +15,8 @@ app = FastAPI(
     version="0.1.0",
     description="Equipment manual RAG and anomaly analysis API.",
 )
+
+app.include_router(search_router)
 
 
 @app.get("/health")
